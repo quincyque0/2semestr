@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 10
+#define N 100000
 
 struct student{
     char *name;
@@ -51,32 +51,34 @@ char *spisnames[] = {
 int partition(int low, int high, struct student arr[]);
 
 void quickSort(int low, int high, struct student arr[]) {
+    
     if (low < high) {
         int pivot_index = partition(low, high, arr); //Разделение массива
 
         quickSort(low, pivot_index - 1, arr); //Рекурсивная сортировка левой части
         quickSort(pivot_index + 1, high, arr); //Рекурсивная сортировка правой части
     }
+
 }
 
 
 int partition(int low, int high, struct student arr[]) {
     int pivot = arr[high].TotalScore;  // Опорный элемент
-    int i = (low - 1);    // Индекс меньшего элемента
+    int i = low - 1;    // Индекс меньшего элемента
     struct student temp;
 
     for (int j = low; j <= high - 1; j++) {// Если текущий элемент меньше или равен опорному
 
         if (arr[j].TotalScore <= pivot) {
-            i++;    // Увеличиваем индекс меньшего элемента
+            i++;    
 
-            // Меняем местами arr[i] и arr[j]
+
             temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
         }
     }
-    // Меняем arr[i + 1] и arr[high] (опорный элемент)
+    
     temp = arr[i + 1];
     arr[i + 1] = arr[high];
     arr[high] = temp;
@@ -84,23 +86,23 @@ int partition(int low, int high, struct student arr[]) {
     
 }
 void selectionSort(struct student arr[], int n) {
-    int min_idx;
+    int min;
     clock_t start, end;
     double cpu_time_used;
     start = clock();
 
     for (int i = 0; i < n - 1; i++) {
 
-        min_idx = i;
+        min = i;
         for (int j = i + 1; j < n; j++)
-            if (arr[j].TotalScore < arr[min_idx].TotalScore)
-                min_idx = j;
+            if (arr[j].TotalScore < arr[min].TotalScore)
+                min = j;
 
 
-        if (min_idx != i) {
+        if (min != i) {
             struct student temp = arr[i];
-            arr[i] = arr[min_idx];
-            arr[min_idx] = temp;
+            arr[i] = arr[min];
+            arr[min] = temp;
         }
     }
     end = clock(); 
@@ -168,7 +170,9 @@ void radixSort(struct student arr[], int n) {
 }
 
 void printProcessorInfoViaSystem() {
-    system("grep -E 'model name|cpu MHz' /proc/cpuinfo | head -2");
+    // SUDO POWERMETRICS для поиска данных о процесоре на mac
+    // system("grep -E 'model name|cpu MHz' /proc/cpuinfo | head -2");
+    system("sysctl -n machdep.cpu.brand_string");
 }
 
 
@@ -184,23 +188,32 @@ int main(){
         students[i] = addStudent(name, math, phy, inf);
     }
 
-    clock_t start, end;
-    start = clock();
+    
     
     printf("Список студентов до сортировки:\n");
-    for (int i = 0; i < N; i++) {
-        printStudentInfo(students[i]);
-    }
-    printf("\n\n");
+    // for (int i = 0; i < N; i++) {
+    //     printStudentInfo(students[i]);
+    // }
+    // printf("\n\n");
+    
+
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
     quickSort(0,N-1,students);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;   // Вычисляем время в секундах
+    printf("Время работы процессора: %f секунд\n ; размер данных : %ld бит\n\n" , cpu_time_used , N*sizeof(struct student));
+
     // radixSort(students,N);
+
     // selectionSort(students,N);
 
     printf("Список студентов после сортировки:\n");
-    for (int i = 0; i < N; i++) {
-        printStudentInfo(students[i]);
-    }
-    printf("\n\n");
+    // for (int i = 0; i < N; i++) {
+    //     printStudentInfo(students[i]);
+    // }
+    // printf("\n\n");
 
     printProcessorInfoViaSystem();
     

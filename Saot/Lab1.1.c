@@ -23,7 +23,7 @@ void selectSortBase(int arr[], int n, int *comparisons, int *swaps) {
                 min_idx = j;
         }
 
-        
+
         temp = arr[i];
         arr[i] = arr[min_idx];
         arr[min_idx] = temp;

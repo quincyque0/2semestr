@@ -44,7 +44,7 @@ void printer(struct node *head) {
     printf("\n");
 }
 
-void generateDotFile(strnode *head, strnode *head2, const char *filename) {
+void generateDotFile(strnode *head, strnode *head2,strnode *main, const char *filename) {
     FILE *fp = fopen(filename, "w");
     if (fp == NULL) {
         fprintf(stderr, "Ошибка открытия файла для записи!\n");
@@ -65,7 +65,12 @@ void generateDotFile(strnode *head, strnode *head2, const char *filename) {
     fprintf(fp, "node0 [label=\"S\"]\nnode0 -> node1;\n");
 
     while (current != NULL) {
-        fprintf(fp, "node%d [label=\"%d\"]\n", node_id, current->data);
+        if(current == main){
+            fprintf(fp, "node%d [label=\"%d\",color=\"red\"]\n", node_id, current->data);
+        }
+        else{
+            fprintf(fp, "node%d [label=\"%d\"]\n", node_id, current->data);
+        }
         if (current->next != NULL) {
             fprintf(fp, "node%d -> node%d;\n", node_id, node_id + 1);
         }
@@ -75,7 +80,12 @@ void generateDotFile(strnode *head, strnode *head2, const char *filename) {
     }
 
     while (current2 != NULL) {
-        fprintf(fp, "node%d [label=\"%d\"]\n", node_id, current2->data);
+        if(current2 == main){
+            fprintf(fp, "node%d [label=\"%d\",color=\"red\"]\n", node_id, current2->data);
+        }
+        else{
+            fprintf(fp, "node%d [label=\"%d\"]\n", node_id, current2->data);
+        }
         if (current2->next != NULL) {
             fprintf(fp, "node%d -> node%d;\n", node_id, node_id + 1);
         }
@@ -97,21 +107,22 @@ void generateDotFile(strnode *head, strnode *head2, const char *filename) {
     free(nodeslist2);
 }
 
-void navigateList(strnode *S) {
+void navigateList(strnode *S,strnode *head, strnode *head2) {
     strnode *current = S->next;
     char input;
-
+    const char *dot_filename = "linked_list.dot";
     while (1) {
+        generateDotFile(head, head2,current, dot_filename);
         printf("Текущее значение: %d\n", current->data);
         if (current->next != NULL) {
-            printf("1 выход (D): %d\n", current->next->data);
+            printf("1 выход (W): %d\n", current->next->data);
         } else {
-            printf("1 выход (D): NULL\n");
+            printf("1 выход (W): NULL\n");
         }
         if (current->secondExit != NULL) {
-            printf("2 выход (W): %d\n", current->secondExit->data);
+            printf("2 выход (D): %d\n", current->secondExit->data);
         } else {
-            printf("2 выход (W): NULL\n");
+            printf("2 выход (D): NULL\n");
         }
         printf("Введите команду (W/A/S/D или 2/4/6/8 для навигации, Q для выхода): ");
         scanf(" %c", &input);
@@ -214,14 +225,14 @@ int main() {
 
 
     const char *dot_filename = "linked_list.dot";
-    generateDotFile(head, head2, dot_filename);
 
 
     var4(head, head2, N, K);
 
 
     S->next = head;
-    navigateList(S);
+    
+    navigateList(S,head,head2);
 
 
     freeList(head);

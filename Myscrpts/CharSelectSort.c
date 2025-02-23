@@ -5,7 +5,7 @@
 #define N 10
 
 char* FillRand(int size, char *massive) {
-    char ascii[26] = "abcdefghijklmnopqrstuvwxyz";
+    char ascii[26] = "rudometow";
     srand(time(NULL));
     for (int i = 0; i < size; i++) {
         massive[i] = ascii[rand() % 26];
@@ -46,7 +46,7 @@ void selectionSort(char* arr, int n) {
 }
 
 int main() {
-    char A[N + 1]; 
+    char A[] = "rudometow"; 
     FillRand(N, A);
     printf("Original array: ");
     Printer(A, N);

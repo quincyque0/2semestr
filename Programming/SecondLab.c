@@ -10,7 +10,7 @@ struct node {
 };
 typedef struct node strnode;
 
-void *addNode(int dat, strnode **head) {
+void addNode(int dat, strnode **head) {
     strnode *new_node = (strnode*)(malloc(sizeof(strnode)));
     new_node->data = dat;
     new_node->next = NULL;

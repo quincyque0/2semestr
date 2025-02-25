@@ -51,36 +51,67 @@ void Tablic(int *Tablic){
 
 
 }
+// void shakerSort(int *arr, int size,int *comparisons, int *swaps){
+//     *comparisons = 0;
+//     *swaps = 0;
+//     int left = 1, right = 1,tmp;
+//     do{
+//         for(int j = size - right; j != left - 1;j--)
+//         {
+//             (*comparisons)++;if(arr[j]< arr[j-1])
+//             {
+//                 tmp = arr[j];
+//                 arr[j] = arr[j-1];
+//                 arr[j-1] = tmp;
+//                 (*swaps) += 3;
+//             }
+//         }
+//         left += 1;
+//         for(int i = left - 1; i != size - right;i++)
+//         {
+//             (*comparisons)++;if(arr[i+1] < arr[i])
+//             {
+//                 tmp = arr[i];
+//                 arr[i] = arr[i+1];
+//                 arr[i+1] = tmp;
+//                 (*swaps) += 3;
+//             } 
+//         }
+//         right += 1;
+//     }while(left != size/2+1);
+// }
+
 void shakerSort(int *arr, int size,int *comparisons, int *swaps){
+    int l = 0,r = size-1, k = size,tmp;
     *comparisons = 0;
     *swaps = 0;
-    int left = 1, right = 1,tmp;
     do{
-        for(int j = size - right; j != left - 1;j--)
-        {
-            (*comparisons)++;if(arr[j]< arr[j-1])
-            {
-                tmp = arr[j];
-                arr[j] = arr[j-1];
-                arr[j-1] = tmp;
+        for(int i = r; i > l;i--){
+            (*comparisons)++;if(arr[i] < arr[i-1]){
+                tmp = arr[i];
+                arr[i]=arr[i-1];
+                arr[i-1]=tmp;
+                k=i;
                 (*swaps) += 3;
+
             }
         }
-        left += 1;
-        for(int i = left - 1; i != size - right;i++)
-        {
-            (*comparisons)++;if(arr[i+1] < arr[i])
-            {
-                tmp = arr[i];
-                arr[i] = arr[i+1];
-                arr[i+1] = tmp;
+        l=k;
+        for(int j = l; j < r;j++){
+            (*comparisons)++;if(arr[j] >arr[j+1]){
+                tmp = arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1]=tmp;
+                k=j;
                 (*swaps) += 3;
-            } 
-        }
-        right += 1;
-    }while(left != size/2+1);
-}
 
+            }
+        }
+        r=k;
+
+    }while(l<r);
+
+}
 void boubleSort(int *arr, int size, int *comparisons, int *swaps){
     int tmp;
     *comparisons = 0;
@@ -98,6 +129,7 @@ void boubleSort(int *arr, int size, int *comparisons, int *swaps){
 }
 int main(){
 int N = 100;
+    srand(time(NULL));
     int *A = (int*)malloc(sizeof(int) * 500);
     int *Tablic_Znach = (int*)malloc(sizeof(int) * 35);
     int comparisons, swaps ,cur = 0;

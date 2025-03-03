@@ -38,7 +38,6 @@ void Tablic(int *Tablic){
     printf("%d\t\t%d\t\t%d\t\t%d\t\t%d\n",Tablic[10],Tablic[11],Tablic[12],Tablic[13],Tablic[14]);
     printf("%d\t\t%d\t\t%d\t\t%d\t\t%d\n",Tablic[15],Tablic[16],Tablic[17],Tablic[18],Tablic[19]);
     printf("%d\t\t%d\t\t%d\t\t%d\t\t%d\n",Tablic[20],Tablic[21],Tablic[22],Tablic[23],Tablic[24]);
-
 }
 void Tablic_Add(int *cur, int *tablic, int A,int B,int C,int D,int E){
     tablic[*cur] = A;

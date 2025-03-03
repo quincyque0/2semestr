@@ -155,6 +155,77 @@ void boubleSort(int *arr, int size, int *comparisons, int *swaps){
         }
     }
 }
+void gnuReader() {
+    FILE *file = fopen("data1.txt", "w"); // Файл для сохранения данных
+    if (file == NULL) {
+        printf("Ошибка открытия файла!\n");
+        return;
+    }
+
+    // Заголовок файла
+    fprintf(file, "N\tSelectSort\tBubbleSort\tShakerSort\tInsertSort\n");
+
+    for (int i = 1; i <= 500; i++) {
+        int *A = (int*)malloc(sizeof(int) * i);
+        int *B = (int*)malloc(sizeof(int) * i);
+        int *C = (int*)malloc(sizeof(int) * i);
+        int *D = (int*)malloc(sizeof(int) * i);
+
+        // Заполняем массивы случайными данными
+        FillRand(i, A);
+        FillRand(i, B);
+        FillRand(i, C);
+        FillRand(i, D);
+
+        int sec = 0, sem = 0; // SelectSort
+        int bc = 0, bm = 0;   // BubbleSort
+        int sc = 0, sm = 0;   // ShakerSort
+        int ic = 0, im = 0;   // InsertSort
+
+        // Выполняем сортировки
+        selectSortGrade(A, i, &sec, &sem);
+        boubleSort(B, i, &bc, &bm);
+        shakerSort(C, i, &sc, &sm);
+        insertSort(D, i, &ic, &im);
+
+        // Записываем данные в файл
+        fprintf(file, "%d\t%d\t%d\t%d\t%d\n", i, sec + sem, bc + bm, sc + sm, ic + im);
+
+        // Освобождаем память
+        free(A);
+        free(B);
+        free(C);
+        free(D);
+    }
+
+    fclose(file);
+    printf("Данные сохранены в файл data1.txt\n");
+
+    // Вызов gnuplot для построения графиков
+    FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
+    if (gnuplotPipe == NULL) {
+        printf("Ошибка вызова gnuplot!\n");
+        return;
+    }
+
+    // Скрипт для gnuplot
+    fprintf(gnuplotPipe, "set title 'Сравнение трудоемкости сортировок'\n");
+    fprintf(gnuplotPipe, "set xlabel 'Размер массива (N)'\n");
+    fprintf(gnuplotPipe, "set ylabel 'Трудоемкость (T)'\n");
+    fprintf(gnuplotPipe, "set grid\n");
+    fprintf(gnuplotPipe, "plot 'data1.txt' using 1:2 with lines title 'SelectSort', \\\n");
+    fprintf(gnuplotPipe, "     'data1.txt' using 1:3 with lines title 'BubbleSort', \\\n");
+    fprintf(gnuplotPipe, "     'data1.txt' using 1:4 with lines title 'ShakerSort', \\\n");
+    fprintf(gnuplotPipe, "     'data1.txt' using 1:5 with lines title 'InsertSort'\n");
+    fprintf(gnuplotPipe, "set terminal png size 2400,1600\n");
+    fprintf(gnuplotPipe, "set output 'sort_graph.png'\n");
+    fprintf(gnuplotPipe, "replot\n");
+    fprintf(gnuplotPipe, "exit\n");
+
+    pclose(gnuplotPipe);
+    printf("График сохранен в файл sort_graph.png\n");
+}
+    
 int main(){
 int N = 100;
     srand(time(NULL));
@@ -249,4 +320,26 @@ int N = 100;
     Tablic(Tablic_Znach);
     printf("\n\n");
     Tablic2(Tablic_Znach2);
+    // Сохранение данных в файл для gnuplot
+FILE *file1 = fopen("data1.txt", "w");
+FILE *file2 = fopen("data2.txt", "w");
+
+if (file1 == NULL || file2 == NULL) {
+    printf("Ошибка открытия файла!\n");
+    return 1;
+}
+
+// Запись данных из Tablic_Znach
+for (int i = 0; i < 25; i += 5) {
+    fprintf(file1, "%d\t%d\t%d\t%d\t%d\n", Tablic_Znach[i], Tablic_Znach[i+1], Tablic_Znach[i+2], Tablic_Znach[i+3], Tablic_Znach[i+4]);
+}
+
+// Запись данных из Tablic_Znach2
+for (int i = 0; i < 25; i += 5) {
+    fprintf(file2, "%d\t%d\t%d\t%d\t%d\n", Tablic_Znach2[i], Tablic_Znach2[i+1], Tablic_Znach2[i+2], Tablic_Znach2[i+3], Tablic_Znach2[i+4]);
+}
+
+fclose(file1);
+fclose(file2);
+gnuReader();
 }

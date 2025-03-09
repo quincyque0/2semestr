@@ -74,11 +74,13 @@ void insertSort(int arr[], int n, int *comparisons, int *swaps){
     *swaps = 0;
     for(int i = 1; i < n; i++){
         (*swaps)++;t = arr[i]; j = i - 1;
-        (*comparisons)++;while(j > 0 && t < arr[j]){
+        while(j > 0 && t < arr[j]){
+            (*comparisons)++; 
             arr[j+1] = arr[j];
             (*swaps)++;
             j = j - 1;
         }
+        (*comparisons)++;  
         arr[j+1] = t;
         (*swaps)++;
     }
@@ -239,9 +241,9 @@ int N = 100;
 
         int theoretical_swaps_orderly = 2*(N-1);
         int theoretical_swaps_random = 3* ((N * N) - N) / 4;
-        int max_theoretical_comparisons = ((N * N) - N) / 2;
+        int max_theoretical_comparisons = ((N * N) - N) / 4;
         int min_theoretical_comparisons = N-1;
-        int theoretical_swaps_max = (((N * N) - N) / 2) + 2*N - 2;
+        int theoretical_swaps_max = (((N * N) - N) / 4) + N - 1;
 
         FillDie(N, N , A);
         insertSort(A, N, &comparisons, &swaps);

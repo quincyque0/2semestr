@@ -1,0 +1,49 @@
+digraph G {
+  node [shape=plaintext];
+  table [label=<
+    <table border='1' cellborder='1' cellspacing='0'>
+      <tr>
+        <td>N</td>
+        <td>Select</td>
+        <td></td>
+        <td>Shaker</td>
+        <td>Insert</td>
+      </tr>
+      <tr>
+        <td>100</td>
+        <td>5241</td>
+        <td>11159</td>
+        <td>9944</td>
+        <td>4594</td>
+      </tr>
+      <tr>
+        <td>200</td>
+        <td>20485</td>
+        <td>38675</td>
+        <td>44736</td>
+        <td>21302</td>
+      </tr>
+      <tr>
+        <td>300</td>
+        <td>45735</td>
+        <td>97974</td>
+        <td>90146</td>
+        <td>44326</td>
+      </tr>
+      <tr>
+        <td>400</td>
+        <td>80976</td>
+        <td>171706</td>
+        <td>171145</td>
+        <td>84422</td>
+      </tr>
+      <tr>
+        <td>500</td>
+        <td>126229</td>
+        <td>259241</td>
+        <td>262470</td>
+        <td>121229</td>
+      </tr>
+    </table>
+  >];
+}

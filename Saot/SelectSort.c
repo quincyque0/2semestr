@@ -194,7 +194,6 @@ int main() {
 
     selectSortBase(arr1, n, &comparisons, &swaps);
 
-    
 
     printf("Контрольная сумма: %d\n", checkSum(arr1, n));
     printf("Число серий: %d\n", runNumber(arr1, n));
@@ -234,8 +233,6 @@ int main() {
     check_sum = checkSum(arr1, n);
     runs = runNumber(arr1, n);
 
-
-
     selectSortBase(arr1, n, &comparisons, &swaps);
 
     printf("Отсортированный массив: ");
@@ -253,8 +250,6 @@ int main() {
     printf("Теоретическое количество сравнений: %d\n", theoretical_comparisons);
     printf("Теоретическое количество переcтановок: %d\n", theoretical_swaps);
     printf("Теоретическая трудоёмкость сортировки(T) = %d \n\n",theoretical_swaps + theoretical_comparisons);
-
-    
 
     Tablic(A,B,C,D,E,F,A1,B1,C1,D1,E1,F1,theoretical_comparisons,theoretical_swaps,theoretical_comparisons2,theoretical_swaps2);
 

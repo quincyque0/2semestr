@@ -22,5 +22,5 @@ void selectSortGrade(int arr[], int n, int *comparisons, int *swaps) {
         // arr[i] = arr[min_idx];
         // arr[min_idx] = temp;
         // (*swaps)+=3;
-    }//daadadadadad
+    }
 }

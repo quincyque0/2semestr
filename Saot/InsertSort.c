@@ -48,9 +48,7 @@ void Tablic_Add5(int *cur, int *tablic, int A,int B,int C,int D,int E){
     tablic[*cur+4] = E;
     *cur += 5;
 }
-void ShellSort(int A[],int n, int *ptr_cf, int *ptr_mf){
 
-}
 
 void createDotFileTablic(const char *filename, int *Tablic) {
     FILE *file = fopen(filename, "w");
@@ -150,18 +148,6 @@ void insertSort( int A[],int n, int *ptr_cf, int *ptr_mf){
     *ptr_cf = 0;
 
     for(int i = 1; i < n; i++){
-<<<<<<< HEAD
-        (*swaps)++;t = arr[i]; j = i - 1;
-        while(j > 0 && t < arr[j]){
-            (*comparisons)++; 
-            arr[j+1] = arr[j];
-            (*swaps)++;
-            j = j - 1;
-        }
-        (*comparisons)++;  
-        arr[j+1] = t;
-        (*swaps)++;
-=======
         int t = A[i];
         int j = i - 1;
         (*ptr_mf)++;
@@ -175,7 +161,6 @@ void insertSort( int A[],int n, int *ptr_cf, int *ptr_mf){
         }
         A[j+1] = t;
         (*ptr_mf)++;
->>>>>>> efbff73f3fe8011c64f50f04f570531d08f4a457
     }
 } 
 
@@ -254,10 +239,7 @@ int N = 100;
         int theoretical_swaps_random = 3* ((N * N) - N) / 4;
         int max_theoretical_comparisons = ((N * N) - N) / 4;
         int min_theoretical_comparisons = N-1;
-<<<<<<< HEAD
-=======
         int m_theoretical_comparisons = (N*N-N)/4;
->>>>>>> efbff73f3fe8011c64f50f04f570531d08f4a457
         int theoretical_swaps_max = (((N * N) - N) / 4) + N - 1;
 
         FillDie(N, N , A);

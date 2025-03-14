@@ -48,9 +48,7 @@ void Tablic_Add5(int *cur, int *tablic, int A,int B,int C,int D,int E){
     tablic[*cur+4] = E;
     *cur += 5;
 }
-void ShellSort(int A[],int n, int *ptr_cf, int *ptr_mf){
 
-}
 
 void createDotFileTablic(const char *filename, int *Tablic) {
     FILE *file = fopen(filename, "w");

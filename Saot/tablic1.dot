@@ -3,41 +3,35 @@ digraph G {
   table [label=<
     <table border='1' cellborder='1' cellspacing='0'>
       <tr>
-        <td>Таблица 2</td>
+        <td>Таблица 1</td>
         <td>N</td>
-        <td>ShellSort</td>
         <td>InsertSort</td>
-        <td>Steps</td>
+        <td>ShellSort</td>
       </tr>
       <tr>
         <td>100</td>
-        <td>1258</td>
         <td>5323</td>
-        <td>77</td>
+        <td>1258</td>
       </tr>
       <tr>
         <td>200</td>
-        <td>3018</td>
         <td>20566</td>
-        <td>77</td>
+        <td>3018</td>
       </tr>
       <tr>
         <td>300</td>
-        <td>4958</td>
         <td>44131</td>
-        <td>281</td>
+        <td>4958</td>
       </tr>
       <tr>
         <td>400</td>
-        <td>6980</td>
         <td>77379</td>
-        <td>281</td>
+        <td>6980</td>
       </tr>
       <tr>
         <td>500</td>
-        <td>9141</td>
         <td>122301</td>
-        <td>281</td>
+        <td>9141</td>
       </tr>
     </table>
   >];

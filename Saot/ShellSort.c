@@ -70,26 +70,26 @@ char* strokernumb(int number) {
     return str;
 }
 
-void insertSort(int A[], int n, int *ptr_cf, int *ptr_mf) {
+void insertSort( int A[],int n, int *ptr_cf, int *ptr_mf){
     *ptr_mf = 0;
     *ptr_cf = 0;
 
-    for (int i = 1; i < n; i++) {
+    for(int i = 1; i < n; i++){
         int t = A[i];
         int j = i - 1;
         (*ptr_mf)++;
-        while (j >= 0) {
+        while(j >= 0){
             (*ptr_cf)++;
-            if (t < A[j]) {
-                A[j + 1] = A[j];
+            if(t < A[j]){
+                A[j+1] = A[j];
                 (*ptr_mf)++;
                 j--;
-            } else break;
+            }else break;
         }
-        A[j + 1] = t;
+        A[j+1] = t;
         (*ptr_mf)++;
     }
-}
+} 
 
 int* FillH(int h[], int m) {
     h[0] = 1;
@@ -135,7 +135,7 @@ int* ShellSort(int arr[], int n, int *comparasions, int *swaps, int *razM) {
 }
 
 void Tablic(char **Tablic) {
-    printf("%-10s%-30s%-15s%-15s\n", "N", "h1 … hm по формуле Д.Кнута", "Insert", "Shell");
+    printf("%-10s%-30s%-15s%-15s\n", "N", "h1 … hm по формуле Д.Кнута", "   Insert", "    Shell");
     for (int i = 0; i < 5; i++) { 
         printf("%-10s%-30s%-15s%-15s\n", Tablic[i * 4], Tablic[i * 4 + 1], Tablic[i * 4 + 2], Tablic[i * 4 + 3]);
     }
@@ -163,6 +163,7 @@ int main() {
         Steps = ShellSort(A, N, &comparisons, &swaps, &m);
         char *shellStr = strokernumb(comparisons + swaps);
         char *strokeStr = stroker(Steps, m);
+        FillRand(N, A);
         insertSort(A, N, &comparisons, &swaps);
         char *insertStr = strokernumb(comparisons + swaps);
         Tablic_Add4(&cur, Tablic_Znach, strokernumb(N), strokeStr, insertStr, shellStr);

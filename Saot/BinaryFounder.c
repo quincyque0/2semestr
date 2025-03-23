@@ -55,8 +55,32 @@ int binaryFounder(int *arr, int size, int *comporsions, int *moves, int x) {
     }
     return -1; 
 }
+int binaryFounderGRADE(int *arr, int size, int *comparisons, int *moves, int x) {
+    *comparisons = 0;
+    *moves = 0;
+
+    int L = 0, R = size - 1, m;
+
+    while (L <= R) {
+        m = (L + R) / 2;
+        (*comparisons)++;
+
+        if (arr[m] == x) {
+            return m;
+        } else if (arr[m] < x) {
+            L = m + 1; 
+        } else {
+            R = m - 1;
+        }
+    }
+
+    return -1; 
+}
 
 int main() {
+    printf("enter number for search");
+    int input;
+    scanf("%d",&input);
     int N = 100;
     srand(time(NULL));
     int *A = (int*)malloc(sizeof(int) * 1000);
@@ -76,11 +100,12 @@ int main() {
 
     for (int i = N; i <= 1000; i += 100) {
         Filllne(0, i, A);
-        int O = binaryFounder(A, i, &comparisons, &swaps, 422);
+        int O = binaryFounder(A, i, &comparisons, &swaps, 2);
         char *chis1 = strokernumb(i); 
-        char *chis2 = strokernumb(O);
         char *chis3 = strokernumb(comparisons);
-        Tablic_Add3(&cur, Tablic_Znach, chis1, chis2, chis3);
+        int OO = binaryFounderGRADE(A, i, &comparisons, &swaps,2);
+        char *chis2 = strokernumb(comparisons);
+        Tablic_Add3(&cur, Tablic_Znach, chis1, chis3, chis2);
     }
 
     Tablic(Tablic_Znach);

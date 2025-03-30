@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 100000
+#define N 10
 
 struct student{
     char *name;
@@ -53,45 +53,168 @@ int partition(int low, int high, struct student arr[]);
 void quickSort(int low, int high, struct student arr[]) {
     
     if (low < high) {
-        int pivot_index = partition(low, high, arr); //Разделение массива
+        int pivot_index = partition(low, high, arr); 
 
-        quickSort(low, pivot_index - 1, arr); //Рекурсивная сортировка левой части
-        quickSort(pivot_index + 1, high, arr); //Рекурсивная сортировка правой части
+        quickSort(low, pivot_index - 1, arr);
+        quickSort(pivot_index + 1, high, arr); 
     }
 
 }
 
 
 int partition(int low, int high, struct student arr[]) {
-    int pivot = arr[high].TotalScore;  // Опорный элемент
-    int i = low - 1;    // Индекс меньшего элемента
+    int curr;
+    int pivot = arr[high].math; 
+    int i = low - 1;    
     struct student temp;
+    printf("enter sort index\n1 - Phys\n2 - Math\n3 - Info\n4 - Total");
+    scanf("%d",&curr);
+    switch (curr)
+    {
+    case 4:
+ 
 
-    for (int j = low; j <= high - 1; j++) {// Если текущий элемент меньше или равен опорному
+        for (int j = low; j <= high - 1; j++) {
 
-        if (arr[j].TotalScore <= pivot) {
-            i++;    
+            if (arr[j].TotalScore <= pivot) {
+                i++;    
 
 
-            temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
         }
+        
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return (i + 1);
+        break;
+    case 2:
+
+
+        for (int j = low; j <= high - 1; j++) {
+
+            if (arr[j].phys <= pivot) {
+                i++;    
+
+
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return (i + 1);
+        break;
+    case 3:
+
+        for (int j = low; j <= high - 1; j++) {
+
+            if (arr[j].info <= pivot) {
+                i++;    
+
+
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return (i + 1);
+        break;
+    case 1:
+
+        for (int j = low; j <= high - 1; j++) {
+
+            if (arr[j].math <= pivot) {
+                i++;    
+
+
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return (i + 1);
+        break;
+    default:
+    perror("wrong enter");
+        break;
     }
-    
-    temp = arr[i + 1];
-    arr[i + 1] = arr[high];
-    arr[high] = temp;
-    return (i + 1);
-    
+        
+    return 0;
 }
 void selectionSort(struct student arr[], int n) {
     int min;
+    int curr;
     clock_t start, end;
     double cpu_time_used;
+    printf("enter sort index\n1 - Phys\n2 - Math\n3 - Info\n4 - Total");
+    scanf("%d",&curr);
     start = clock();
+    
+    switch (curr)
+    {
+    case 1:
+        for (int i = 0; i < n - 1; i++) {
 
-    for (int i = 0; i < n - 1; i++) {
+        min = i;
+        for (int j = i + 1; j < n; j++)
+            if (arr[j].math < arr[min].math)
+                min = j;
+
+
+        if (min != i) {
+            struct student temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
+        }
+    }
+        break;
+    case 2:
+        for (int i = 0; i < n - 1; i++) {
+
+        min = i;
+        for (int j = i + 1; j < n; j++)
+            if (arr[j].phys < arr[min].phys)
+                min = j;
+
+
+        if (min != i) {
+            struct student temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
+        }
+    }
+    case 3:
+        for (int i = 0; i < n - 1; i++) {
+
+        min = i;
+        for (int j = i + 1; j < n; j++)
+            if (arr[j].info < arr[min].info)
+                min = j;
+
+
+        if (min != i) {
+            struct student temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
+        }
+    }
+    case 4:
+        for (int i = 0; i < n - 1; i++) {
 
         min = i;
         for (int j = i + 1; j < n; j++)
@@ -105,22 +228,52 @@ void selectionSort(struct student arr[], int n) {
             arr[min] = temp;
         }
     }
+    default:
+        perror("wrong enter");
+        break;
+    }
+    
     end = clock(); 
 
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;   // Вычисляем время в секундах
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;   
 
     printf("Время работы процессора: %f секунд\n ; размер данных : %ld бит\n" , cpu_time_used , N*sizeof(struct student));
 }
 
 void radixSort(struct student arr[], int n) {
+    int curr;
     int maxNumber = 0;
     clock_t start, end;
     double cpu_time_used;
     start = clock();
-    for (int i = 0; i < n; i++) {
-        if (maxNumber < arr[i].TotalScore)
-            maxNumber = arr[i].TotalScore;
+    printf("enter sort index\n1 - Phys\n2 - Math\n3 - Info\n4 - Total");
+    scanf("%d",&curr);
+    if(curr == 1){
+        for (int i = 0; i < n; i++) {
+            if (maxNumber < arr[i].phys)
+                maxNumber = arr[i].phys;
+        }
     }
+    else if(curr == 2){
+        for (int i = 0; i < n; i++) {
+            if (maxNumber < arr[i].math)
+                maxNumber = arr[i].math;
+        }
+    }
+    else if(curr == 3){
+        for (int i = 0; i < n; i++) {
+            if (maxNumber < arr[i].info)
+                maxNumber = arr[i].info;
+        }
+    }
+    else if(curr == 4){
+        for (int i = 0; i < n; i++) {
+            if (maxNumber < arr[i].TotalScore)
+                maxNumber = arr[i].TotalScore;
+        }
+    }
+    else perror("wrong enter");
+   
 
     
     struct student **buckets = (struct student **)malloc(10 * sizeof(struct student *));
@@ -131,21 +284,39 @@ void radixSort(struct student arr[], int n) {
     int *bucketCounts = (int *)malloc(10 * sizeof(int)); 
     struct student *tempArr = (struct student *)malloc(n * sizeof(struct student));
 
-    // Сортируем по каждому разряду, начиная с наименьшего
     for (int raz = 1; maxNumber / raz > 0; raz *= 10) {
-        // Обнуляем счетчики bucketCounts
         for (int i = 0; i < 10; i++) {
             bucketCounts[i] = 0;
         }
-
-        // Распределяем элементы по buckets в соответствии со значением текущего разряда
-        for (int i = 0; i < n; i++) {
-            int digit = (arr[i].TotalScore / raz) % 10;
-            buckets[digit][bucketCounts[digit]] = arr[i];
-            bucketCounts[digit]++;
+        if(curr ==1){
+            for (int i = 0; i < n; i++) {
+                int digit = (arr[i].math / raz) % 10;
+                buckets[digit][bucketCounts[digit]] = arr[i];
+                bucketCounts[digit]++;
+            }
+        }
+        if(curr == 2){
+            for (int i = 0; i < n; i++) {
+                int digit = (arr[i].phys / raz) % 10;
+                buckets[digit][bucketCounts[digit]] = arr[i];
+                bucketCounts[digit]++;
+            }
+        }
+        if(curr == 3){
+            for (int i = 0; i < n; i++) {
+                int digit = (arr[i].info / raz) % 10;
+                buckets[digit][bucketCounts[digit]] = arr[i];
+                bucketCounts[digit]++;
+            }
+        }
+        if(curr == 4){
+            for (int i = 0; i < n; i++) {
+                int digit = (arr[i].TotalScore / raz) % 10;
+                buckets[digit][bucketCounts[digit]] = arr[i];
+                bucketCounts[digit]++;
+            }
         }
 
-        // Собираем элементы из buckets обратно в исходный массив
         int index = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < bucketCounts[i]; j++) {
@@ -164,7 +335,7 @@ void radixSort(struct student arr[], int n) {
     free(tempArr);
     end = clock();
 
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;   // Вычисляем время в секундах
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;  
 
     printf("Время работы процессора: %f секунд\nразмер данных : %ld бит\n" , cpu_time_used , N*sizeof(struct student));
 }
@@ -196,24 +367,42 @@ int main(){
     // }
     // printf("\n\n");
     
-
+    int sortsellect;
     clock_t start, end;
     double cpu_time_used;
-    start = clock();
-    quickSort(0,N-1,students);
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;   // Вычисляем время в секундах
-    printf("Время работы процессора: %f секунд\n ; размер данных : %ld бит\n\n" , cpu_time_used , N*sizeof(struct student));
+    printf("choice sort\n1 - select\n2 - radix\n3 - quick");
+    scanf("%d",&sortsellect);
+    switch (sortsellect)
+    {
+    case 3:
+        
+        start = clock();
+        quickSort(0,N-1,students);
+        end = clock();
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;  
+        printf("Время работы процессора: %f секунд\n ; размер данных : %ld бит\n\n" , cpu_time_used , N*sizeof(struct student));
+        break;
+    case 1:
+        selectionSort(students,N);
+        break;
+    case 2:
+        radixSort(students,N);
+        break;
+    default:
+        perror("wrong enter");
+        break;
+    }
+    
 
-    // radixSort(students,N);
+    
 
-    // selectionSort(students,N);
+    
 
     printf("Список студентов после сортировки:\n");
-    // for (int i = 0; i < N; i++) {
-    //     printStudentInfo(students[i]);
-    // }
-    // printf("\n\n");
+    for (int i = 0; i < N; i++) {
+        printStudentInfo(students[i]);
+    }
+    printf("\n\n");
 
     printProcessorInfoViaSystem();
     

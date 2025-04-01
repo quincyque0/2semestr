@@ -39,7 +39,9 @@ void Shaker_sort(struct phone_book arr[], int sizestruct, int index[]){
         for(int i = R; i > L; i--){
             if(Less(arr[i], arr[i-1])){
                 tmp = index[i];
+                printf("%d\n",tmp);
                 index[i] = index[i-1];
+                printf("%d\n",arr[index[i]]);
                 index[i-1] = tmp;
                 k = i;
             }
@@ -48,7 +50,9 @@ void Shaker_sort(struct phone_book arr[], int sizestruct, int index[]){
         for(int i = L; i < R; i++){
             if (More(arr[i], arr[i+1])){
                 tmp = index[i];
+                printf("%d\n",tmp);
                 index[i] = index[i+1];
+                printf("%d\n",arr[index[i]]);
                 index[i+1] = tmp;
                 k = i;
             }

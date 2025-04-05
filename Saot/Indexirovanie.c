@@ -10,6 +10,12 @@ struct phone_book {
 };
 
 
+void Printer(int *arr, int size){
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+} 
+
 int LessByName(struct phone_book A, struct phone_book B) {
     return strcmp(A.name, B.name) < 0;
 }
@@ -52,11 +58,11 @@ void Selection_sort(struct phone_book arr[], int sizestruct, int index[], int (*
 
 
 int binarySearchName(struct phone_book arr[], int index[], int size, const char *key) {
-    int left = 0, right = size - 1;
+    int left = 0, right = size - 1;int cmp = -1;int mid;
 
     while (left <= right) {
-        int mid = (size / 2);
-        int cmp = strcmp(arr[index[mid]].name, key);
+        mid = (left+right)/2;
+        cmp = strcmp(arr[index[mid]].name, key);
 
         if (cmp == 0)
             return index[mid]; 
@@ -65,25 +71,33 @@ int binarySearchName(struct phone_book arr[], int index[], int size, const char 
         else
             right = mid - 1;
     }
+    if (cmp == 0){
+        return index[mid]; 
+    }
+    else printf("element not found");
 
     return -1;
 }
 
 
 int binarySearchSurname(struct phone_book arr[], int index[], int size, const char *key) {
-    int left = 0, right = size - 1;
+    int left = 0, right = size - 1;int cmp = -1;int mid;
 
     while (left <= right) {
-        int mid = left + (right - left) / 2;
-        int cmp = strcmp(arr[index[mid]].surname, key);
+        mid = (left+right)/2;
+        cmp = strcmp(arr[index[mid]].surname, key);
 
         if (cmp == 0)
-            return index[mid];
+            return index[mid]; 
         else if (cmp < 0)
             left = mid + 1;
         else
             right = mid - 1;
     }
+    if (cmp == 0){
+        return index[mid]; 
+    }
+    else printf("element not found");
 
     return -1;
 }
@@ -96,7 +110,7 @@ int main() {
         {"Javio", "Delphino", "Binarycodovich", 1234321},
         {"Cplus", "Phperov", "Htmlovich", 8803306},
         {"Swifter", "Typescriptov", "Asemblerovich", 8803306},
-        {"Alice", "Smith", "Unknown", 5551212},
+        {"Alicembler", "Smithtml", "Unknown", 5551212},
     };
 
     int size = sizeof(directory) / sizeof(directory[0]);
@@ -116,17 +130,30 @@ int main() {
     initializeIndexArray(0, size, index_name);
     initializeIndexArray(0, size, index_surname);
 
+    printf("начальный массив\n\n");
+    indexprint(directory, index_surname, size);
 
-   
+    printf("индексные массивы изначально\n\n");
+    Printer(index_name,size);
+    Printer(index_surname,size);
+
+printf("\n");
+
     Selection_sort(directory, size, index_name, LessByName);
-
+    printf("индексный массив для имени\n\n");
+    
+    Printer(index_name,size);
+    printf("\n");
     printf("Справочник, отсортированный по имени:\n");
     indexprint(directory, index_name, size);
     printf("\n");
 
     
     Selection_sort(directory, size, index_surname, LessBySurname);
-
+    printf("индексный массив для фамилии\n\n");
+    
+    Printer(index_surname,size);
+    printf("\n");
     printf("Справочник, отсортированный по фамилии:\n");
     indexprint(directory, index_surname, size);
     printf("\n");
@@ -139,8 +166,12 @@ int main() {
     int foundIndexName = binarySearchName(directory, index_name, size, searchName);
     if (foundIndexName != -1) {
         printf("Найдено по имени: %s %s %s %d\n", directory[foundIndexName].name,
-               directory[foundIndexName].surname, directory[foundIndexName].patronymic,
-               directory[foundIndexName].phonenumber);
+        directory[foundIndexName].surname, directory[foundIndexName].patronymic,
+        directory[foundIndexName].phonenumber);
+        if (strcmp(directory[foundIndexName].surname,directory[foundIndexName+1].surname) == 0){
+        printf("Найдено по фамилии: %s %s %s %d\n", directory[foundIndexName+1].name,
+            directory[foundIndexName+1].surname, directory[foundIndexName+1].patronymic,
+            directory[foundIndexName+1].phonenumber);}
     } else {
         printf("Имя '%s' не найдено.\n", searchName);
     }
@@ -155,8 +186,14 @@ int main() {
     int foundIndexSurname = binarySearchSurname(directory, index_surname, size, searchSurname);
     if (foundIndexSurname != -1) {
         printf("Найдено по фамилии: %s %s %s %d\n", directory[foundIndexSurname].name,
-               directory[foundIndexSurname].surname, directory[foundIndexSurname].patronymic,
-               directory[foundIndexSurname].phonenumber);
+            directory[foundIndexSurname].surname, directory[foundIndexSurname].patronymic,
+            directory[foundIndexSurname].phonenumber);
+        
+
+        if (strcmp(directory[foundIndexSurname].surname,directory[foundIndexSurname+1].surname) == 0){
+        printf("Найдено по фамилии: %s %s %s %d\n", directory[foundIndexSurname+1].name,
+            directory[foundIndexSurname+1].surname, directory[foundIndexSurname+1].patronymic,
+            directory[foundIndexSurname+1].phonenumber);}
     } else {
         printf("Фамилия '%s' не найдена.\n", searchSurname);
     }

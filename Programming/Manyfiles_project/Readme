@@ -1,0 +1,23 @@
+на 3:
+    rm libMY_LOG.so #если присутствует динамическая не дает собрать проект
+    gcc -c secondary.c      
+    gcc -c main.c              #создание обьектных файлов
+    ar rc libMY_LOG.a secondary.o # компиляция статической библиотеки
+    gcc main.o -o project -L. -lMY_LOG  # сборка проекта
+    ./project # запуск
+на 4:
+    gcc main.c -c   
+    gcc secondary.c -c -fPIC  #создание обьектных файлов
+    gcc --shared main.o secondary.o -o libMY_LOG.so # компиляция динамической библиотеки
+    gcc main.o -o project -L. -lMY_LOG -Wl,-rpath,. # сборка проекта
+    ./project   # запуск
+на 5:
+    Находясь в папке build:
+
+    cmake .. -DLIB_TYPE=STATIC - для статичексой библиотеки
+    cmake .. -DLIB_TYPE=SHARED - для динамической библиотеки
+
+    далее :
+
+    make
+    ./program

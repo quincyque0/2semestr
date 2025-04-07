@@ -3,144 +3,163 @@
 #include <time.h>
 #include <math.h>
 
-int buildComparisons = 0; 
-int buildSwaps = 0;        
-int sortComparisons = 0;  
-int sortSwaps = 0;         
-int theoty = 0;
+int comparisonCount = 0;
+int swapCount = 0;
 
-void swap(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-
-}
-
-int* Filllne(int begin,int size,int *massive){
-    for(int i = 0; i < size; i++){
-        massive[i] = begin + i;
-    }
-    return massive;
-}
-
-int* FillDie(int begin,int size,int *massive){
-    for(int i = 0; i < size ;i++){
-        massive[i] = begin - i;
-    }
-    return massive;
-}
-
-void buildMaxHeap(int arr[], int L, int R) {
-    int x = arr[L];
-    int i = L;
+void siftDownElement(int array[], int startIndex, int endIndex) {
+    int currentValue = array[startIndex];
+    int currentIndex = startIndex;
 
     while (1) {
-        int j = 2 * i + 1;
-        if (j > R) break;
+        int childIndex = 2 * currentIndex;
+        if (childIndex > endIndex) break;
 
-        
-
-        (buildComparisons++);if (j < R) {
-            (buildComparisons++);if(arr[j + 1] > arr[j])
-            {
-                j = j + 1;
+        if (childIndex < endIndex) {
+            if (array[childIndex + 1] > array[childIndex]) {
+                comparisonCount++;
+                childIndex = childIndex + 1;
             }
         }
 
-        (buildComparisons++); if (x >= arr[j]) {
+        if (currentValue >= array[childIndex]) {
+            comparisonCount++;
             break;
         }
 
-        (buildComparisons++);arr[i] = arr[j];
-        i = j;
+        swapCount++;
+        array[currentIndex] = array[childIndex];
+        currentIndex = childIndex;
     }
-    (buildComparisons++);arr[i] = x;
+
+    if (currentIndex != startIndex) swapCount++;
+    swapCount++;
+    array[currentIndex] = currentValue;
 }
 
-void heapSortAscending(int arr[], int n) {
-    
-    for (int L = n / 2 - 1; L >= 0; L--) {
-        buildMaxHeap(arr, L, n - 1);
-        theoty += 2 * log((n)/(L+1));
-        theoty += log((n)/(L+1)) + L+1;
-    }
-
-    
-    for (int R = n - 1; R > 0; R--) {
-        swap(&arr[0], &arr[R]);
-        buildMaxHeap(arr, 0, R - 1);
-        theoty += 2 * log((R+1)/1);
-        theoty += log((R+1)/1) + 1;
+void buildMaxHeap(int array[], int size) {
+    for (int i = size / 2 - 1; i >= 0; i--) {
+        siftDownElement(array, i, size - 1);
     }
 }
 
-void printArray(int arr[], int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
+void initializeArray(int array[], int size, int arrayType) {
+    switch (arrayType) {
+        case 0: // Decreasing order
+            for (int i = 0; i < size; i++) array[i] = size - i;
+            break;
+        case 1: // Random order
+            for (int i = 0; i < size; i++) array[i] = rand() % (2 * size);
+            break;
+        case 2: // Increasing order
+            for (int i = 0; i < size; i++) array[i] = i + 1;
+            break;
     }
-    printf("\n");
 }
 
-int* FillRand(int size, int *massive) {
-    srand(time(NULL));
-    for (int i = 0; i < size; i++) {
-        massive[i] = rand() % 1000000;
+void testHeapBuilding(int size) {
+    int array[size];
+    int theoreticalComplexity = 2 * log2(size) + log2(size) + 3;
+
+    printf("| %5d ", size);
+
+    for (int arrayType = 0; arrayType < 3; arrayType++) {
+        initializeArray(array, size, arrayType);
+        comparisonCount = swapCount = 0;
+        siftDownElement(array, 1, size);
+        printf("| %10d ", comparisonCount + swapCount);
     }
-    return massive;
+
+    printf("| %9d |\n", theoreticalComplexity);
+}
+
+void heapify(int array[], int rootIndex, int endIndex) {
+    int root = rootIndex;
+
+    while (2 * root + 1 <= endIndex) {
+        int leftChild = 2 * root + 1;
+        int swapIndex = root;
+
+        comparisonCount++;
+        if (array[swapIndex] < array[leftChild]) {
+            swapIndex = leftChild;
+        }
+
+        if (leftChild + 1 <= endIndex) {
+            comparisonCount++;
+            if (array[swapIndex] < array[leftChild + 1]) {
+                swapIndex = leftChild + 1;
+            }
+        }
+
+        if (swapIndex == root) {
+            return;
+        } else {
+            swapCount++;
+            int temp = array[root];
+            array[root] = array[swapIndex];
+            array[swapIndex] = temp;
+            root = swapIndex;
+        }
+    }
+}
+
+void performHeapSort(int array[], int size) {
+    comparisonCount = swapCount = 0;
+
+    // Build max heap
+    for (int i = size / 2 - 1; i >= 0; i--) {
+        heapify(array, i, size - 1);
+    }
+
+    // Extract elements from heap
+    for (int i = size - 1; i > 0; i--) {
+        swapCount++;
+        int temp = array[0];
+        array[0] = array[i];
+        array[i] = temp;
+
+        heapify(array, 0, i - 1);
+    }
+}
+
+void testSortingPerformance(int size) {
+    int array[size];
+    printf("| %5d ", size);
+
+    for (int arrayType = 0; arrayType < 3; arrayType++) {
+        initializeArray(array, size, arrayType);
+        performHeapSort(array, size);
+        printf("| %9d ", comparisonCount + swapCount);
+    }
+
+    printf("|\n");
 }
 
 int main() {
     srand(time(NULL));
-    int compRand,compFill,compDie,swapRand,swapDie,swapFill;
-    for(int n = 100;n <= 500;n +=100){
 
+    printf("Heap Construction Complexity Analysis\n");
+    printf("+-------+------------+------------+------------+-----------+\n");
+    printf("| Size  | Decreasing | Random     | Increasing | Theory    |\n");
+    printf("+-------+------------+------------+------------+-----------+\n");
+
+
+    for (int i = 100; i <= 500; i+=100) {
+        testHeapBuilding(i);
     }
-    for(int n = 100;n <= 500;n +=100){
-        int comparasions_theory = (2*n * (log(n)/log(2))) + n + 2;
-        int swaps_theory = (n * (log(n)/log(2))) + (6.5 * n )- 4;
 
-        int *arr = (int*)malloc(sizeof(int) * n);
+    printf("+-------+------------+------------+------------+-----------+\n");
 
-            FillRand(n, arr);  
-            buildComparisons = 0; 
-            buildSwaps = 0;        
-            sortComparisons = 0;  
-            sortSwaps = 0; 
-            heapSortAscending(arr, n);
-            compRand = sortComparisons + buildComparisons;
-            swapRand = sortSwaps + buildSwaps;
-            printf("\ntheory = %d\n",theoty);
-            theoty = 0;
-            
+    printf("\nHeap Sort Performance Analysis\n");
+    printf("+-------+-----------+-----------+-----------+\n");
+    printf("| Size  | Decreasing| Increasing| Random    |\n");
+    printf("+-------+-----------+-----------+-----------+\n");
 
-            FillDie(0,n, arr);  
-            buildComparisons = 0; 
-            buildSwaps = 0;        
-            sortComparisons = 0;  
-            sortSwaps = 0; 
-            heapSortAscending(arr, n);
-            compDie = sortComparisons + buildComparisons;
-            swapDie = sortSwaps + buildSwaps;
-            printf("\ntheory = %d\n",theoty);
-            theoty = 0;
+    for (int i = 100; i <= 500; i+=100) {
+        testSortingPerformance(i);
+    }
 
-            Filllne(n,n, arr);  
-            buildComparisons = 0; 
-            buildSwaps = 0;        
-            sortComparisons = 0;  
-            sortSwaps = 0; 
-            heapSortAscending(arr, n);
-            compFill = sortComparisons + buildComparisons;
-            swapFill = sortSwaps + buildSwaps;
-            printf("\ntheory = %d\n",theoty);
-            theoty = 0;
-            printf("%-10d%-10d%-10d%-10d\n",n,swapDie+compDie,compRand+swapRand,compFill+swapFill);
-            
+    printf("+-------+-----------+-----------+-----------+\n");
 
-
-    
-    free(arr);
-    
-}
-
+    return 0;
 }

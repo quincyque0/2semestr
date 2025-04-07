@@ -44,13 +44,13 @@ void buildMaxHeap(int array[], int size) {
 
 void initializeArray(int array[], int size, int arrayType) {
     switch (arrayType) {
-        case 0: // Decreasing order
+        case 0: 
             for (int i = 0; i < size; i++) array[i] = size - i;
             break;
-        case 1: // Random order
+        case 1: 
             for (int i = 0; i < size; i++) array[i] = rand() % (2 * size);
             break;
-        case 2: // Increasing order
+        case 2: 
             for (int i = 0; i < size; i++) array[i] = i + 1;
             break;
     }
@@ -106,12 +106,12 @@ void heapify(int array[], int rootIndex, int endIndex) {
 void performHeapSort(int array[], int size) {
     comparisonCount = swapCount = 0;
 
-    // Build max heap
+  
     for (int i = size / 2 - 1; i >= 0; i--) {
         heapify(array, i, size - 1);
     }
 
-    // Extract elements from heap
+ 
     for (int i = size - 1; i > 0; i--) {
         swapCount++;
         int temp = array[0];

@@ -6,7 +6,7 @@
 int comparisonCount = 0;
 int swapCount = 0;
 
-void siftDownElement(int array[], int startIndex, int endIndex) {
+void piram(int array[], int startIndex, int endIndex) {
     int currentValue = array[startIndex];
     int currentIndex = startIndex;
 
@@ -38,7 +38,7 @@ void siftDownElement(int array[], int startIndex, int endIndex) {
 
 void buildMaxHeap(int array[], int size) {
     for (int i = size / 2 - 1; i >= 0; i--) {
-        siftDownElement(array, i, size - 1);
+        piram(array, i, size - 1);
     }
 }
 
@@ -48,7 +48,7 @@ void initializeArray(int array[], int size, int arrayType) {
             for (int i = 0; i < size; i++) array[i] = size - i;
             break;
         case 1: 
-            for (int i = 0; i < size; i++) array[i] = rand() % (2 * size);
+            for (int i = 0; i < size; i++) array[i] = rand() % (100000);
             break;
         case 2: 
             for (int i = 0; i < size; i++) array[i] = i + 1;
@@ -56,20 +56,21 @@ void initializeArray(int array[], int size, int arrayType) {
     }
 }
 
-void testHeapBuilding(int size) {
+void HeapBuilding(int size) {
     int array[size];
     int theoreticalComplexity = 2 * log2(size) + log2(size) + 3;
 
     printf("| %5d ", size);
-
+    printf("| %9d ", theoreticalComplexity);
     for (int arrayType = 0; arrayType < 3; arrayType++) {
         initializeArray(array, size, arrayType);
         comparisonCount = swapCount = 0;
-        siftDownElement(array, 1, size);
+        piram(array, 1, size);
         printf("| %10d ", comparisonCount + swapCount);
+        
     }
+    printf("|\n");
 
-    printf("| %9d |\n", theoreticalComplexity);
 }
 
 void heapify(int array[], int rootIndex, int endIndex) {
@@ -122,7 +123,7 @@ void performHeapSort(int array[], int size) {
     }
 }
 
-void testSortingPerformance(int size) {
+void SortingPerformance(int size) {
     int array[size];
     printf("| %5d ", size);
 
@@ -138,28 +139,26 @@ void testSortingPerformance(int size) {
 int main() {
     srand(time(NULL));
 
-    printf("Heap Construction Complexity Analysis\n");
-    printf("+-------+------------+------------+------------+-----------+\n");
-    printf("| Size  | Decreasing | Random     | Increasing | Theory    |\n");
-    printf("+-------+------------+------------+------------+-----------+\n");
+    printf("------------------------------------------------------------\n");
+    printf("| N     | Теоретич  |    Убыв    |    Случ    |     Возр   |\n");
+    printf("------------------------------------------------------------\n");
 
 
     for (int i = 100; i <= 500; i+=100) {
-        testHeapBuilding(i);
+        HeapBuilding(i);
     }
 
-    printf("+-------+------------+------------+------------+-----------+\n");
+    printf("------------------------------------------------------------\n");
 
-    printf("\nHeap Sort Performance Analysis\n");
-    printf("+-------+-----------+-----------+-----------+\n");
-    printf("| Size  | Decreasing| Increasing| Random    |\n");
-    printf("+-------+-----------+-----------+-----------+\n");
+    printf("---------------------------------------------\n");
+    printf("|   N   |   Убыв    |    Возр   |   Ранд    |\n");
+    printf("---------------------------------------------\n");
 
     for (int i = 100; i <= 500; i+=100) {
-        testSortingPerformance(i);
+        SortingPerformance(i);
     }
 
-    printf("+-------+-----------+-----------+-----------+\n");
+    printf("---------------------------------------------\n");
 
     return 0;
 }

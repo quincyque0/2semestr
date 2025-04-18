@@ -3,7 +3,7 @@
     gcc -c secondary.c      
     gcc -c main.c              #создание обьектных файлов
     ar rc libMY_LOG.a secondary.o # компиляция статической библиотеки
-    gcc main.o -o project -L. -lMY_LOG  # сборка проекта
+    gcc main.o -o project -L. -lMY_LOG  # сборка проекта -lm
     ./project # запуск
 на 4:
     gcc main.c -c   

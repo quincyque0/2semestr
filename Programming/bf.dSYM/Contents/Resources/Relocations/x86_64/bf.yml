@@ -1,9 +1,0 @@
----
-triple:          'x86_64-apple-darwin'
-binary-path:     bf
-relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _createFile, symObjAddr: 0x0, symBinAddr: 0x1000007C0, symSize: 0xE0 }
-  - { offsetInCU: 0x59, offset: 0x59, size: 0x8, addend: 0x0, symName: _createFile, symObjAddr: 0x0, symBinAddr: 0x1000007C0, symSize: 0xE0 }
-  - { offsetInCU: 0xAB, offset: 0xAB, size: 0x8, addend: 0x0, symName: _search, symObjAddr: 0xE0, symBinAddr: 0x1000008A0, symSize: 0x330 }
-  - { offsetInCU: 0x146, offset: 0x146, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x410, symBinAddr: 0x100000BD0, symSize: 0x37 }
-...

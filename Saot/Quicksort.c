@@ -137,35 +137,35 @@ int main() {
 
     printf("------------------------------------------------------------------------------\n");
 
-    printf("------------------------------------------------------------------------------\n");
-    printf("|   n  | quicksort(убывание) | quicksort(возрастание) | quicksort(случайный) |\n");
-    printf("------------------------------------------------------------------------------\n");
+    // printf("------------------------------------------------------------------------------\n");
+    // printf("|   n  | quicksort(убывание) | quicksort(возрастание) | quicksort(случайный) |\n");
+    // printf("------------------------------------------------------------------------------\n");
 
-    for (int n = 100; n <= 500; n += 100) {
-        int *a = (int*)malloc(sizeof(int) * n);
+    // for (int n = 100; n <= 500; n += 100) {
+    //     int *a = (int*)malloc(sizeof(int) * n);
 
    
-        FillDie(n, n, a);
-        quickSort_v2(a, n);
-        fd = moves + comparisons;
+    //     FillDie(n, n, a);
+    //     quickSort_v2(a, n);
+    //     fd = moves + comparisons;
 
   
-        FillRand(n, a);
-        quickSort_v2(a, n);
-        fr = moves + comparisons;
+    //     FillRand(n, a);
+    //     quickSort_v2(a, n);
+    //     fr = moves + comparisons;
 
      
-        Filllne(0, n, a); 
-        quickSort_v2(a, n);
-        ff = moves + comparisons;
+    //     Filllne(0, n, a); 
+    //     quickSort_v2(a, n);
+    //     ff = moves + comparisons;
 
 
-        printf("| %4d | %-21d | %-21d | %-19d |\n", n, fd, ff, fr);
-    }
+    //     printf("| %4d | %-21d | %-21d | %-19d |\n", n, fd, ff, fr);
+    // }
 
-    printf("------------------------------------------------------------------------------\n");
+    // printf("------------------------------------------------------------------------------\n");
 
 
 
-    return 0;
+    // return 0;
 }

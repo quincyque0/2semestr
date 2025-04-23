@@ -1,60 +1,61 @@
-def quick_sort_standard(A):
-    if len(A) > 0:
-        _quick_sort_standard(A, 0, len(A) - 1)
-    print("______")
-    print(' '.join(A))
+def merge_sort_visualized(arr):
+    """
+    Реализует сортировку слиянием с визуализацией этапов слияния.
+    """
 
-def _quick_sort_standard(A, L, R):
-    print(' '.join(str(i) for i in range(L, R + 1)))
-    print(' '.join(A[i] if i >= L and i <= R else ' ' for i in range(13)))
-    if L >= R:
-        return
-    i, j = partition(A, L, R)
-    if L < j:
-        _quick_sort_standard(A, L, j)
-    if i < R:
-        _quick_sort_standard(A, i, R)
+    if len(arr) <= 1:
+        return arr
 
-def partition(A, L, R):
-    x = A[L]
-    print(f"Обведён в круг: {x}({L})")
-    i = L
-    j = R
-    i_positions = []
-    j_positions = []
-    
-    while i < j:
-        while i <= R and A[i] < x:
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+
+    print(f"Разделение: {arr} -> {left_half}, {right_half}")
+
+    left_half = merge_sort_visualized(left_half)
+    right_half = merge_sort_visualized(right_half)
+
+    return merge_visualized(left_half, right_half, arr)
+
+
+def merge_visualized(left, right, original_arr):
+    """
+    Слияние двух отсортированных массивов с визуализацией.
+    """
+    merged = []
+    i = 0
+    j = 0
+
+    print(f"Слияние: left={left}, right={right}")
+
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
+            print(f"  Выбрано {left[i]} из left.  merged = {merged}")
             i += 1
-        while j >= L and A[j] > x:
-            j -= 1
-        
-        if i <= R:
-            i_positions.append(f"{A[i]}({i})")
-        if j >= L:
-            j_positions.append(f"{A[j]}({j})")
-        
-        if i_positions:
-            print(f"Верхнее подчёркивание: {' '.join(i_positions)}")
-        if j_positions:
-            print(f"Нижнее подчёркивание: {' '.join(j_positions)}")
-        
-        if i <= j:
-            print(f"Перестановка {A[i]}({i}) и {A[j]}({j})")
-            A[i], A[j] = A[j], A[i]
-            i += 1
-            j -= 1
-            print(' '.join(str(i) for i in range(L, R + 1)))
-            print(' '.join(A[i] if i >= L and i <= R else ' ' for i in range(13)))
         else:
-            break
-    
-    if j >= L:
-        print(f"Точка под буквой: {A[j]}({j})")
-    if i <= R:
-        print(f"Точка над буквой: {A[i]}({i})")
-    
-    return (i, j)
+            merged.append(right[j])
+            print(f"  Выбрано {right[j]} из right.  merged = {merged}")
+            j += 1
 
-l = list("РУДОМЕТОВДАН")
-quick_sort_standard(l)
+    # Добавление оставшихся элементов из left
+    while i < len(left):
+        merged.append(left[i])
+        print(f"  Остаток из left: {left[i]}. merged = {merged}")
+        i += 1
+
+    # Добавление оставшихся элементов из right
+    while j < len(right):
+        merged.append(right[j])
+        print(f"  Остаток из right: {right[j]}. merged = {merged}")
+        j += 1
+
+    print(f"Результат слияния: {merged}")
+    return merged
+
+
+# Пример использования
+example_array = [12, 11, 13, 5, 6, 7]
+print("Исходный массив:", example_array)
+sorted_array = merge_sort_visualized(example_array)
+print("Отсортированный массив:", sorted_array)

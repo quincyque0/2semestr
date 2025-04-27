@@ -113,19 +113,14 @@ void merge_series(Node* a, int q, Node* b, int r, Node** result, Stats* stats) {
 
 void merge_sort(Node** S, Stats* stats) {
     if (!*S || !(*S)->next) return;
-
     Node *a = NULL, *b = NULL;
     int n = 0;
     split_list(*S, &a, &b, &n);
-    
     *S = NULL;
-    
     merge_sort(&a, stats);
     merge_sort(&b, stats);
-    
     Node* merged = NULL;
     merge_series(a, n/2 + n%2, b, n/2, &merged, stats);
-    
     *S = merged;
 }
 
@@ -152,7 +147,7 @@ void print_results_table() {
     printf("|  N   | M+C теоретич. | Убыв  | Возр  | Случ  |\n");
     printf("+------+---------------+-------+-------+-------+\n");
     
-    int sizes[] = {100, 200, 300, 400, 500};
+    int sizes[] = {100, 200, 300, 400, 500};    
     
     for (int i = 0; i < sizeof(sizes)/sizeof(sizes[0]); i++) {
         int n = sizes[i];

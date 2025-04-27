@@ -12,6 +12,11 @@ typedef struct {
     int comparisons;
     int movements;
 } Stats;
+typedef struct {
+    Node* head;
+    Node* tail;
+} Queue;
+
 
 Node* create_node(int data) {
     Node* new_node = (Node*)malloc(sizeof(Node));
@@ -75,7 +80,7 @@ void merge_series(Node* a, int q, Node* b, int r, Node** result, Stats* stats) {
     Node* head = NULL;
     Node* tail = NULL;
     
-    while (q > 0 && r > 0 && a && b) {
+    while (q != 0 && r != 0 && a && b) {
         stats->comparisons++;
         if (a->data <= b->data) {
             Node* next = a->next;

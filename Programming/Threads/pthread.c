@@ -6,9 +6,9 @@
 #include <math.h>
 #include <unistd.h>
 
-#define MAX_THREADS 128
-#define MAX_SIZE 2500
-#define STEP_SIZE 500
+#define MAX_THREADS 16
+#define MAX_SIZE 500
+#define STEP_SIZE 10
 #define THREAD_STEP 2
 
 typedef struct {
@@ -108,7 +108,7 @@ void run_test(int N, int num_threads, FILE *results_file) {
     double elapsed_time = (end_time - start_time) * 1000;
 
     fprintf(results_file, "%d,%d,%.2f\n", N, num_threads, elapsed_time);
-    printf("N=%d, Threads=%d, Time=%.2f ms\n", N, num_threads, elapsed_time);
+    printf("N=%d, поток=%d, секунд=%.2f ms\n", N, num_threads, elapsed_time);
 
     for (int i = 0; i < N; i++) {
         free(A[i]);
@@ -125,7 +125,7 @@ void run_test(int N, int num_threads, FILE *results_file) {
 void generate_plot() {
     FILE *plot_script = fopen("plot_results.py", "w");
     if (!plot_script) {
-        perror("Failed to create plot script");
+        perror("Ошибка создания plot script");
         return;
     }
 
@@ -136,27 +136,25 @@ void generate_plot() {
     fprintf(plot_script, "pivoted = df.pivot(index='Size', columns='Threads', values='Time')\n\n");
     fprintf(plot_script, "plt.figure(figsize=(12, 8))\n");
     fprintf(plot_script, "for column in pivoted.columns:\n");
-    fprintf(plot_script, "    plt.plot(pivoted.index, pivoted[column], label=f'{column} threads', marker='o')\n\n");
-    fprintf(plot_script, "plt.xlabel('Matrix Size')\n");
-    fprintf(plot_script, "plt.ylabel('Time (ms)')\n");
-    fprintf(plot_script, "plt.title('Matrix Multiplication Performance')\n");
+    fprintf(plot_script, "    plt.plot(pivoted.index, pivoted[column], label=f'{column} Потоки', marker='o')\n\n");
+    fprintf(plot_script, "plt.xlabel('Размер')\n");
+    fprintf(plot_script, "plt.ylabel('Время (ms)')\n");
+    fprintf(plot_script, "plt.title('Тестирование потоков')\n");
     fprintf(plot_script, "plt.legend()\n");
     fprintf(plot_script, "plt.grid(True)\n");
     fprintf(plot_script, "plt.savefig('performance_plot.png')\n");
     fprintf(plot_script, "plt.show()\n");
     fclose(plot_script);
 
-    printf("Running Python script to generate plot...\n");
-    system("python3 plot_results.py");
-    printf("Plot saved as 'performance_plot.png'\n");
+    printf("Сохранено в 'performance_plot.png'\n");
 }
 
 int main() {
-    printf("Starting matrix multiplication performance tests...\n");
+    printf("Тестирование...\n");
     
     FILE *results_file = fopen("results.csv", "w");
     if (!results_file) {
-        perror("Failed to create results file");
+        perror("Ошибка создания results file");
         return 1;
     }
 
@@ -168,10 +166,10 @@ int main() {
     }
 
     fclose(results_file);
-    printf("\nAll tests completed. Results saved to 'results.csv'\n");
+    printf("\nСохранено в'results.csv'\n");
 
     generate_plot();
-    //gcc matrix_mult.c -o matrix_mult -pthread -lm && ./matrix_mult
+    //gcc pthread.c -o matrix_mult -pthread -lm
 
     return 0;
 }

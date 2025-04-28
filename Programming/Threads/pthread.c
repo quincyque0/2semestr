@@ -171,7 +171,7 @@ int main() {
     printf("\nAll tests completed. Results saved to 'results.csv'\n");
 
     generate_plot();
-    //gcc matrix_mult.c -o matrix_mult -pthread -lm && ./matrix_mult
+    //gcc pthread.c -o matrix_mult -pthread -lm
 
     return 0;
 }

@@ -80,7 +80,7 @@ void DigitalSort(Node** headPtr, int L) {
     
     for (int j = L-1; j >= 0; j--) {
 
-        for (int i = 0; i < BASE; i++) {
+        for (int i = 0; i < 256; i++) {
             Q[i].Head = NULL;
             Q[i].Tail = NULL;
         }

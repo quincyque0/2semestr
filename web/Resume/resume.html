@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Резюме</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div class="resume-card" id="resumeContent">
+    <div class="header">
+      <div class="profile-img-container">
+        <img src="https://i.pinimg.com/474x/c6/00/f2/c600f276b3f7cafcd572402ac86e489b.jpg" 
+             alt="Фото профиля" 
+             class="profile-img"
+             id="profileImage">
+        <button class="change-photo-btn" id="changePhotoBtn">+</button>
+        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+      </div>
+      <h1 class="redactable" contenteditable="true" data-placeholder="Введите информацию об образовании...">  Имя Фамилия</h1>
+    </div>
+    <div class="line"></div>
+    <h2>Умения:</h2>
+    <div class="redactable" contenteditable="true" data-placeholder="Введите текст..."></div>
+    <div class="line"></div>
+    <h2>Опыт работы:</h2>
+    <div class="redactable" contenteditable="true" data-placeholder="Введите текст..."></div>
+    <div class="line"></div>
+    <h2>Образование:</h2>
+    <div class="education-section">
+      <div class="redactable" contenteditable="true" data-placeholder="Введите информацию об образовании..."></div>
+      <div class="document-upload">
+        <input type="file" id="education-doc" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
+        <label for="education-doc" class="upload-btn">Документ об образовании</label>
+        <div class="attached-files"></div>
+      </div>
+    </div>
+    <div class="line"></div>
+    <div class="button-container">
+      <button class="button" id="downloadPdfBtn">Download PDF</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

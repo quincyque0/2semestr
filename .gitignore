@@ -3,6 +3,8 @@
 .exe
 .dot
 .png
+a.out
+a.exe
 Test.c
 tmp.c
 tmp.py

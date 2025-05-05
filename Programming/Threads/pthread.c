@@ -7,6 +7,7 @@
 
 pthread_mutex_t queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t rand_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t file_mutex = PTHREAD_MUTEX_INITIALIZER;
 int ttl = 30;
 int running = 1;
 
@@ -23,12 +24,52 @@ typedef struct {
 
 Queue queue = {NULL, NULL};
 
+void update_graph_file() {
+    pthread_mutex_lock(&file_mutex);
+    FILE *fp = fopen("graph.dot", "w");
+    if (fp == NULL) {
+        fprintf(stderr, "Ошибка открытия файла для записи!\n");
+        pthread_mutex_unlock(&file_mutex);
+        return;
+    }
+    
+    fprintf(fp, "digraph LinkedList {\n");
+    fprintf(fp, "node [shape=circle];\n");
+    fprintf(fp, "rankdir=UD;\n");
+
+    pthread_mutex_lock(&queue_mutex);
+    ThreadData *current = queue.head;
+    while (current != NULL) {
+        char escaped_msg[256];
+        int j = 0;
+        for (int i = 0; current->message[i] != '\0' && j < 255; i++) {
+            if (current->message[i] == '"' || current->message[i] == '\\') {
+                escaped_msg[j++] = '\\';
+            }
+            escaped_msg[j++] = current->message[i];
+        }
+        escaped_msg[j] = '\0';
+        
+        fprintf(fp, "  node%d [label=\"%d: %s\"];\n", current->num, current->num, escaped_msg);
+        if (current->next != NULL) {
+            fprintf(fp, "  node%d -> node%d;\n", current->num, current->next->num);
+        }
+        current = current->next;
+    }
+    pthread_mutex_unlock(&queue_mutex);
+    
+    fprintf(fp, "}\n");
+    fclose(fp);
+    pthread_mutex_unlock(&file_mutex);
+}
+
 int safe_rand(int max) {
     pthread_mutex_lock(&rand_mutex);
     int result = rand() % max;
     pthread_mutex_unlock(&rand_mutex);
     return result;
 }
+
 unsigned int portable_rand_r(unsigned int *seed) {
     unsigned int next = *seed;
     next *= 1103515245;
@@ -59,11 +100,12 @@ char* get_message() {
 }
 
 void* sender_thread(void *arg) {
-
     unsigned int seed = time(NULL) ^ pthread_self();
     
     while(running) {
-        int delay = 1 + (portable_rand_r(&seed) % 10);
+        int delay = 1 + (portable_rand_r(&seed) % 3);
+        if(queue.tail != NULL){
+            if(queue.tail->num > 10) delay += 10;}
         sleep(delay);
         
         char* msg = get_message();
@@ -91,6 +133,7 @@ void* sender_thread(void *arg) {
         pthread_mutex_unlock(&queue_mutex);
         
         printf("Отправитель %lu добавил: %s (#%d)\n", pthread_self()-1, msg, new_node->num);
+        update_graph_file();
     }
     return NULL;
 }
@@ -101,7 +144,7 @@ void* receiver_thread(void *arg) {
     char message[bufsize + 1];
     
     while(running) {
-        int delay = 1 + (portable_rand_r(&seed) % 10);
+        int delay = 1 + (portable_rand_r(&seed) % 5);
         sleep(delay);
         
         pthread_mutex_lock(&queue_mutex);
@@ -129,6 +172,7 @@ void* receiver_thread(void *arg) {
         
         free(curr->message);
         free(curr);
+        update_graph_file();
     }
     return NULL;
 }
@@ -146,6 +190,8 @@ int main() {
 
     pthread_t senders[3], receivers[3];
     
+    update_graph_file();
+    
     for (int i = 0; i < 3; i++) {
         pthread_create(&senders[i], NULL, sender_thread, NULL);
         pthread_create(&receivers[i], NULL, receiver_thread, NULL);
@@ -156,4 +202,7 @@ int main() {
         pthread_join(senders[i], NULL);
         pthread_join(receivers[i], NULL);
     }
+    
+    pthread_join(breaker, NULL);
+    return 0;
 }

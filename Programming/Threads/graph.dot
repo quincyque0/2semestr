@@ -1,17 +1,15 @@
 digraph LinkedList {
 node [shape=circle];
 rankdir=UD;
-  node10 [label="10: Они любят мне правду"];
-  node10 -> node11;
-  node11 [label="11: Она нашла тот день"];
+  node11 [label="11: Я сделал мне правду"];
   node11 -> node12;
-  node12 [label="12: Она нашла тот день"];
+  node12 [label="12: Мы знаем тот день"];
   node12 -> node13;
-  node13 [label="13: Вы видели деньги"];
+  node13 [label="13: Мы знаем кофе"];
   node13 -> node14;
-  node14 [label="14: Вы видели кофе"];
+  node14 [label="14: Ты помнишь завтра утром"];
   node14 -> node15;
-  node15 [label="15: Они любят мне правду"];
+  node15 [label="15: Ты помнишь домой"];
   node15 -> node16;
-  node16 [label="16: Они любят мне правду"];
+  node16 [label="16: Мы можем домой"];
 }

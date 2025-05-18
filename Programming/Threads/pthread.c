@@ -100,7 +100,7 @@ char* get_message() {
 }
 
 void* sender_thread(void *arg) {
-    unsigned int seed = time(NULL) ^ pthread_self();
+    unsigned int seed = time(NULL) ^ (unsigned long)pthread_self();;
     
     while(running) {
         int delay = 1 + (portable_rand_r(&seed) % 3);
@@ -139,7 +139,7 @@ void* sender_thread(void *arg) {
 }
 
 void* receiver_thread(void *arg) {
-    unsigned int seed = time(NULL) ^ pthread_self();
+    unsigned int seed = time(NULL) ^ (unsigned long)pthread_self();;
     int bufsize = 128;
     char message[bufsize + 1];
     

@@ -1,0 +1,2 @@
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/CMakeFiles/edit_cache.dir
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/CMakeFiles/rebuild_cache.dir

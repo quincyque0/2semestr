@@ -1,61 +1,66 @@
-def merge_sort_visualized(arr):
-    """
-    Реализует сортировку слиянием с визуализацией этапов слияния.
-    """
+from colorama import Fore, Style
 
-    if len(arr) <= 1:
-        return arr
+def shell_sort(s):
+    s = list(s)
+    n = len(s)
+    h = [2, 1]
 
-    mid = len(arr) // 2
-    left_half = arr[:mid]
-    right_half = arr[mid:]
+    for k in h:
+        print(f"{Fore.YELLOW}{k}-сортировка{Style.RESET_ALL}")
+        for i in range(k, n):
+            c = []
+            m = []
+            s_copy = s.copy()
 
-    print(f"Разделение: {arr} -> {left_half}, {right_half}")
+            t = s[i]
+            j = i - k
+            while j >= 0:
+                c.append(j)
+                if t >= s[j]:
+                    break
 
-    left_half = merge_sort_visualized(left_half)
-    right_half = merge_sort_visualized(right_half)
+                m.append(j)
+                s[j + k] = s[j]
+                j -= k
+            s[j + k] = t
 
-    return merge_visualized(left_half, right_half, arr)
+            for idx in range(n):
+                if idx == i:
+                    print(Fore.BLUE, end="")
+                if idx in c:
+                    print("\033[4m", end="")
+                if idx in m:
+                    print(Fore.GREEN, end="")
+                print(f"{s_copy[idx]}{Style.RESET_ALL}", end=" ")
+            print()
 
+            if m and k == 2:
+                tag = False
+                for j in range(n):
+                    if j not in m:
+                        print(" " if not tag else f"{Fore.GREEN}_{Style.RESET_ALL}", end=" ")
+                        if tag: tag = False
+                    else:
+                        print(f" ", end=f"{Fore.GREEN}\\{Style.RESET_ALL}")
+                        tag = True
+                print()
+                print(" " * 2, end="")
+                for j in range(n):
+                    if j not in m:
+                        print(" ", end=" ")
+                    else:
+                        print(f" ", end=f"{Fore.GREEN}\\{Style.RESET_ALL}")
+                print()
+            if m and k == 1:
+                for j in range(n):
+                    if j not in m:
+                        print(" ", end=" ")
+                    else:
+                        print(" ", end=f"{Fore.GREEN}\\{Style.RESET_ALL}")
+                print()
 
-def merge_visualized(left, right, original_arr):
-    """
-    Слияние двух отсортированных массивов с визуализацией.
-    """
-    merged = []
-    i = 0
-    j = 0
+            if i == n - 1 and m:
+                print(*s)
+        print()
 
-    print(f"Слияние: left={left}, right={right}")
-
-    while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
-            merged.append(left[i])
-            print(f"  Выбрано {left[i]} из left.  merged = {merged}")
-            i += 1
-        else:
-            merged.append(right[j])
-            print(f"  Выбрано {right[j]} из right.  merged = {merged}")
-            j += 1
-
-    # Добавление оставшихся элементов из left
-    while i < len(left):
-        merged.append(left[i])
-        print(f"  Остаток из left: {left[i]}. merged = {merged}")
-        i += 1
-
-    # Добавление оставшихся элементов из right
-    while j < len(right):
-        merged.append(right[j])
-        print(f"  Остаток из right: {right[j]}. merged = {merged}")
-        j += 1
-
-    print(f"Результат слияния: {merged}")
-    return merged
-
-
-# Пример использования
-example_array = [12, 11, 13, 5, 6, 7]
-print("Исходный массив:", example_array)
-sorted_array = merge_sort_visualized(example_array)
-print("Отсортированный массив:", sorted_array)
+shell_sort("КУРАПОВА")

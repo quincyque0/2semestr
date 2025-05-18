@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+project(SortingAlgorithms C)
+
+set(CMAKE_C_STANDARD 11)
+
+# Основная библиотека
+add_library(sorting_algorithms STATIC
+    src/insertion_sort.c
+    src/quick_sort.c
+    src/counting_sort.c
+    src/bogosort_wiki.c
+)
+
+# Поддиректория с тестами
+add_subdirectory(tests)

@@ -1,15 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
-project(SortingAlgorithms C)
+project(QuicksortAnalysis C)
 
 set(CMAKE_C_STANDARD 11)
 
-# Основная библиотека
-add_library(sorting_algorithms STATIC
-    src/insertion_sort.c
-    src/quick_sort.c
-    src/counting_sort.c
-    src/bogosort_wiki.c
-)
+# Основная программа (если у вас есть main-функция в quicksort.c)
+add_executable(quicksort_analysis src/quicksort.c)
 
-# Поддиректория с тестами
+# ИЛИ если main-функция в отдельном файле, создайте src/main.c
+# add_executable(quicksort_analysis src/quicksort.c src/main.c)
+
+# Тесты
 add_subdirectory(tests)

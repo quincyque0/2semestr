@@ -1,0 +1,5 @@
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/CMakeFiles/edit_cache.dir
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/CMakeFiles/rebuild_cache.dir
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/tests/CMakeFiles/test_quicksort.dir
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/tests/CMakeFiles/edit_cache.dir
+/Users/a1/Desktop/GitHub/2semestr/Programming/Tests/build/tests/CMakeFiles/rebuild_cache.dir

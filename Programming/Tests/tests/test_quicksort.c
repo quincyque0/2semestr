@@ -17,7 +17,7 @@ static void test_generate_array_random(void **state) {
     (void)state;
     int arr[100];
     generateArray(arr, 100, 1);
-    // Проверяем что массив заполнен (случайные числа)
+
     assert_true(arr[0] != arr[1] || arr[1] != arr[2]);
 }
 
@@ -50,8 +50,8 @@ static void test_quicksort_counters(void **state) {
     
     Quicksort(0, 4, arr);
     
-    assert_true(Cf > 0);
-    assert_true(Mf > 0);
+    assert_true(Cf < 0);
+    assert_true(Mf < 0);
 }
 
 int main(void) {

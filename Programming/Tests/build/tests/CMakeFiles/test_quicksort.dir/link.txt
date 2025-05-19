@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/cc  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test_quicksort.dir/test_quicksort.c.o CMakeFiles/test_quicksort.dir/__/src/quicksort.c.o -o test_quicksort   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib -lcmocka

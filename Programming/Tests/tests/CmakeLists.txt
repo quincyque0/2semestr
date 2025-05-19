@@ -1,11 +1,17 @@
 find_package(cmocka REQUIRED)
+include_directories(/usr/local/include)
+link_directories(/usr/local/lib)
 
-add_executable(test_quicksort
-    test_quicksort.c
-    ../src/quicksort.c
+
+include_directories(
+    ${CMOCKA_INCLUDE_DIRS}
+    ../src
 )
 
+add_executable(test_quicksort test_quicksort.c ../src/quicksort.c )
+
 target_link_libraries(test_quicksort
+    ${CMOCKA_LIBRARIES}
     cmocka
 )
 

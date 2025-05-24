@@ -1,8 +1,65 @@
-#include "poker.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <stdbool.h>
+#include <conio.h>
+#include <windows.h>
+#include <math.h>
 
-// Global variables
+#define MAX_PLAYERS 10
+#define START_CHIPS 1000
+#define SMALL_BLIND 10
+#define NUM_COMMUNITY_CARDS 5
+#define NUM_HAND_CARDS 2
+#define NUM_RANKS 13
+#define NUM_SUITS 4
+#define NUM_CARDS 52
+#define MAX_COMBINATIONS 10
+
+#define COLOR_RED 12
+#define COLOR_GRAY 8
+#define COLOR_GREEN 10
+#define COLOR_YELLOW 14
+#define COLOR_PURPLE 13
+#define COLOR_DEFAULT 7
+
 const char *suits[] = {"♥", "♦", "♣", "♠"};
 const char *ranks[] = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+
+typedef struct {
+    int suit;
+    int rank;
+    bool visible;
+} Card;
+
+typedef struct {
+    char name[50];
+    Card hand[NUM_HAND_CARDS];
+    int chips;
+    int current_bet;
+    bool folded;
+    bool all_in;
+    bool is_ai;
+} Player;
+
+typedef enum {
+    HIGH_CARD,
+    PAIR,
+    TWO_PAIR,
+    THREE_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FULL_HOUSE,
+    FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH,
+    ROYAL_FLUSH
+} HandRank;
+
+typedef struct {
+    HandRank rank;
+    int kickers[NUM_HAND_CARDS];
+} HandValue;
 
 Card deck[NUM_CARDS];
 Card community_cards[NUM_COMMUNITY_CARDS];
@@ -16,9 +73,31 @@ int big_blind_pos = 0;
 int current_player = 0;
 int game_round = 0;
 bool game_active = false;
-int fallplayers = 0;
 
-// Function implementations
+
+int fallplayers = 0;
+void set_color(int color);
+void reset_color();
+void init_deck();
+void shuffle_deck();
+void print_card(Card card);
+void print_hand(Card hand[NUM_HAND_CARDS], bool hide_second);
+void deal_cards();
+void reveal_community_cards();
+void print_game_state();
+void place_bet(int player_idx, int amount);
+void player_turn(int player_idx);
+void ai_turn(int player_idx);
+void betting_round();
+void next_round();
+void determine_winner();
+void start_hand();
+void add_player(const char *name, bool is_ai);
+void evaluate_hand(Card hand[NUM_HAND_CARDS], Card community[NUM_COMMUNITY_CARDS], HandValue *result);
+int compare_hands(const void *a, const void *b);
+void print_hand_rank(HandRank rank);
+
+
 void clear_screen() {
     system("cls");
 }
@@ -30,6 +109,7 @@ void set_color(int color) {
 void reset_color() {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), COLOR_DEFAULT);
 }
+
 
 void init_deck() {
     int i = 0;
@@ -52,6 +132,7 @@ void shuffle_deck() {
         deck[j] = temp;
     }
 }
+
 
 void print_card(Card card) {
     if (card.visible) {
@@ -83,6 +164,7 @@ void print_hand(Card hand[NUM_HAND_CARDS], bool hide_second) {
     }
 }
 
+
 void deal_cards() {
     int card_idx = 0;
 
@@ -93,6 +175,7 @@ void deal_cards() {
         players[i].all_in = false;
         players[i].current_bet = 0;
     }
+    
 
     for (int i = 0; i < NUM_COMMUNITY_CARDS; i++) {
         community_cards[i] = deck[card_idx++];
@@ -168,6 +251,7 @@ void print_game_state() {
     printf("\n");
 }
 
+
 void place_bet(int player_idx, int amount) {
     if (amount > players[player_idx].chips) {
         amount = players[player_idx].chips;
@@ -205,11 +289,11 @@ void player_turn(int player_idx) {
 
     int choice;
     if (scanf("%d", &choice) != 1) {
-        printf("Неверный ввод. Попробуйте снова.\n");
-        while (getchar() != '\n');
-        player_turn(player_idx);
-        return;
-    }
+    printf("Неверный ввод. Попробуйте снова.\n");
+    while (getchar() != '\n');
+    player_turn(player_idx);
+    return;
+}
     
     switch (choice) {
         case 1:
@@ -249,6 +333,7 @@ void player_turn(int player_idx) {
     }
 }
 
+
 void ai_turn(int player_idx) {
     if (players[player_idx].folded || players[player_idx].all_in) {
         return;
@@ -257,18 +342,23 @@ void ai_turn(int player_idx) {
     current_player = player_idx;
     print_game_state();
     
+
     bool can_check = (players[player_idx].current_bet == current_bet);
     int call_amount = current_bet - players[player_idx].current_bet;
     int chips_left = players[player_idx].chips;
     
+
     HandValue hand_value;
     evaluate_hand(players[player_idx].hand, community_cards, &hand_value);
     
+
     double hand_strength = (double)hand_value.rank / (double)ROYAL_FLUSH;
     double pot_odds = (double)call_amount / (double)(pot + call_amount);
     
+
     Sleep(1000 + rand() % 2000);
     
+
     if (can_check) {
         if (hand_strength > 0.7 || (hand_strength > 0.4 && rand() % 100 < 30)) {
             int raise_amount = (int)(players[player_idx].chips * (0.2 + (hand_strength - 0.5) * 0.5));
@@ -300,11 +390,12 @@ void ai_turn(int player_idx) {
     }
 }
 
+
 void betting_round() {
     int start_pos = (dealer_pos + 1) % num_players;
     int active_players = 0;
     int last_raiser = -1; 
-    int statplayers = num_players - fallplayers;    
+    int statplayers = num_players -  fallplayers;    
 
     for (int i = 0; i < num_players; i++) {
         if (!players[i].folded && !players[i].all_in) {
@@ -325,6 +416,7 @@ void betting_round() {
             }
             players_acted++;
             
+
             if (players[current_pos].current_bet > current_bet) {
                 last_raiser = current_pos;
                 players_acted = 0;
@@ -345,6 +437,7 @@ void betting_round() {
         current_pos = (current_pos + 1) % num_players;
     }
     
+
     for (int i = 0; i < num_players; i++) {
         players[i].current_bet = 0;
     }
@@ -352,6 +445,7 @@ void betting_round() {
 }
 
 void next_round() {
+
     int active_players = 0;
     for (int i = 0; i < num_players; i++) {
         if (!players[i].folded) {
@@ -371,8 +465,7 @@ void next_round() {
     }
     
     reveal_community_cards();
-    if(active_players >= 2)betting_round();
-        
+    betting_round();
 }
 
 void start_hand() {
@@ -408,7 +501,6 @@ void start_hand() {
     
     determine_winner();
 }
-
 void print_hand_rank(HandRank rank) {
     switch (rank) {
         case HIGH_CARD: printf("Старшая карта"); break;
@@ -450,6 +542,7 @@ void evaluate_hand(Card hand[NUM_HAND_CARDS], Card community[NUM_COMMUNITY_CARDS
     Card all_cards[NUM_HAND_CARDS + NUM_COMMUNITY_CARDS];
     int num_visible_community = 0;
     
+
     memcpy(all_cards, hand, sizeof(Card) * NUM_HAND_CARDS);
     
     for (int i = 0; i < NUM_COMMUNITY_CARDS; i++) {
@@ -471,6 +564,7 @@ void evaluate_hand(Card hand[NUM_HAND_CARDS], Card community[NUM_COMMUNITY_CARDS
     bool flush = false;
     int flush_suit = -1;
     
+    // Проверка на флеш
     for (int s = 0; s < NUM_SUITS; s++) {
         if (count_suit(all_cards, num_cards, s) >= 5) {
             flush = true;
@@ -548,7 +642,8 @@ void evaluate_hand(Card hand[NUM_HAND_CARDS], Card community[NUM_COMMUNITY_CARDS
             }
         }
         
-        if (straight_flush && sf_high == 12) {
+
+        if (straight_flush && sf_high == 12) { 
             result->rank = ROYAL_FLUSH;
             return;
         }
@@ -575,6 +670,7 @@ void evaluate_hand(Card hand[NUM_HAND_CARDS], Card community[NUM_COMMUNITY_CARDS
         }
     }
     
+
     bool three = false;
     int three_rank = -1;
     bool two = false;
@@ -772,6 +868,8 @@ void determine_winner() {
     pot = 0;
 }
 
+
+
 void add_player(const char *name, bool is_ai) {
     if (num_players >= MAX_PLAYERS) return;
     
@@ -826,7 +924,7 @@ int main() {
                     players[j] = players[j + 1];
                 }
                 num_players--;
-                i--;
+                i--; 
             }
         }
         
@@ -835,10 +933,9 @@ int main() {
             printf("%s побеждает в игре!\n", players[0].name);
             break;
         }
-        
+        fallplayers = 0;
         printf("\nНажмите Enter для следующей раздачи...");
         getchar(); getchar();
-        fallplayers = 0;
     }
-    return 0;
+ return 0;
 }

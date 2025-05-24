@@ -565,7 +565,7 @@ void evaluate_hand(Card hand[NUM_HAND_CARDS], Card community[NUM_COMMUNITY_CARDS
     bool flush = false;
     int flush_suit = -1;
     
-
+    // Проверка на флеш
     for (int s = 0; s < NUM_SUITS; s++) {
         if (count_suit(all_cards, num_cards, s) >= 5) {
             flush = true;

@@ -36,3 +36,24 @@
   <img src="https://img.shields.io/badge/Linux-Ubuntu_22.04-E95420?logo=linux" alt="Linux">
   <img src="https://img.shields.io/badge/Make-4.3-003366" alt="Make">
 </p>
+# <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWN0b2VjZGJqYXV4N2RlY3J5dWk1cW0yY3JtOHRlY2V6eWZzZ2JtYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7btT1T9qpQZA2NEo/giphy.gif" width="50"> Путь Джедая в C: От segfault'а до просветления 
+
+<div align="center">
+  
+  ![C Meme](https://i.imgur.com/3Q7W5wW.gif)  
+  *Мой код, когда в нем нет memory leaks (на самом деле их 15)*
+
+</div>
+
+## 🔥 Мои статы как C-программиста
+
+```python
+# Да-да, я знаю, что это не C, но так красивее!
+skills = {
+    "Указатели": "⭐️⭐️⭐️☆☆",
+    "Мемори-менеджмент": "⭐️⭐️☆☆☆", 
+    "Отладка": "⭐️☆☆☆☆ (printf rulez)",
+    "ООП в C": "❌ Не, не слышал",
+    "Стрессоустойчивость": "⭐️⭐️⭐️⭐️⭐️"
+}
+```

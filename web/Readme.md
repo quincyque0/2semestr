@@ -34,6 +34,7 @@ flask run --debug
 
 ### 2. Модель OSI
 ![Модель OSI](/images/osi-model.png)
+
 📚 Полезные ресурсы
 - <img src="https://cdn-icons-png.flaticon.com/512/919/919852.png" width="16"> [Django Docs](https://docs.djangoproject.com)
 - <img src="https://simpleicons.org/icons/flask.svg" width="16"> [Flask Guide](https://flask.palletsprojects.com)

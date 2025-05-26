@@ -45,7 +45,7 @@ graph TD
 ```
 📚 Полезные ресурсы
 - <img src="https://cdn-icons-png.flaticon.com/512/919/919852.png" width="16"> [Django Docs](https://docs.djangoproject.com)
-- <img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" width="16"> [Flask Guide](https://flask.palletsprojects.com)
+- <img src="https://simpleicons.org/icons/flask.svg" width="16"> [Flask Guide](https://flask.palletsprojects.com)
 
 🎯 Roadmap
 - Основы HTTP/HTTPS

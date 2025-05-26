@@ -29,3 +29,10 @@
 - 🥈 Написал работающий linked list (с 7 раза)
 
 - 🥉 Понимаю разницу между *ptr++ и (*ptr)++
+
+🧰 Мой арсенал
+<p align="center">
+  <img src="https://img.shields.io/badge/GCC-11.3-03599C?logo=gnu" alt="GCC">
+  <img src="https://img.shields.io/badge/Linux-Ubuntu_22.04-E95420?logo=linux" alt="Linux">
+  <img src="https://img.shields.io/badge/Make-4.3-003366" alt="Make">
+</p>

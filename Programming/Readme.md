@@ -38,7 +38,7 @@
 </p>
 
 ## 🌈 Радуга компиляции
-```c
+```bash
 $ make
 gcc -Wall -Wextra -Werror -g main.c -o app
 + main.c: В функции ‘main’:

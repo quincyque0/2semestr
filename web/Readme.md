@@ -41,7 +41,6 @@ graph TD
     D --> E[3. Сетевой<br>IP/ICMP]
     E --> F[2. Канальный<br>Ethernet]
     F --> G[1. Физический<br>Кабели]
-
 ```
 📚 Полезные ресурсы
 - <img src="https://cdn-icons-png.flaticon.com/512/919/919852.png" width="16"> [Django Docs](https://docs.djangoproject.com)
